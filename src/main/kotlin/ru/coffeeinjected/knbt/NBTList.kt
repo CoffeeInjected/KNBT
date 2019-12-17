@@ -5,7 +5,7 @@ import ru.coffeeinjected.knbt.internal.TagRegistry
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
-class NBTTagList(name: String, val tagId: Byte) : NBTTag(name) {
+class NBTList(name: String, val tagId: Byte) : NBTTag(name) {
 
     private val tags = ArrayList<NBTTag>()
 
@@ -24,10 +24,10 @@ class NBTTagList(name: String, val tagId: Byte) : NBTTag(name) {
 
     override fun toString() = "[${tags.joinToString(separator = ",")}]"
 
-    internal object Parser : TagParser<NBTTagList>() {
-        override fun parse(name: String, input: DataInputStream): NBTTagList {
+    internal object Parser : TagParser<NBTList>() {
+        override fun parse(name: String, input: DataInputStream): NBTList {
             val tagId: Byte = input.readByte()
-            val list = NBTTagList(name, tagId)
+            val list = NBTList(name, tagId)
             val size = input.readInt()
             val parser = TagRegistry.getTagParser(tagId)
 

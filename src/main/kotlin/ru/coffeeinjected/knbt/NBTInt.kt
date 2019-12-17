@@ -4,7 +4,7 @@ import ru.coffeeinjected.knbt.internal.TagParser
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
-class NBTTagInt(name: String, private val value: Int) : NBTTag(name) {
+class NBTInt(name: String, private val value: Int) : NBTTag(name) {
 
     override fun write(output: DataOutputStream) {
         output.writeInt(value)
@@ -12,7 +12,7 @@ class NBTTagInt(name: String, private val value: Int) : NBTTag(name) {
 
     override fun toString() = "$name:${value}"
 
-    internal object Parser : TagParser<NBTTagInt>() {
-        override fun parse(name: String, input: DataInputStream) = NBTTagInt(name, input.readInt())
+    internal object Parser : TagParser<NBTInt>() {
+        override fun parse(name: String, input: DataInputStream) = NBTInt(name, input.readInt())
     }
 }

@@ -4,7 +4,7 @@ import ru.coffeeinjected.knbt.internal.TagParser
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
-class NBTTagEnd private constructor() : NBTTag("END") {
+class NBTEnd private constructor() : NBTTag("END") {
 
     override fun write(output: DataOutputStream) {
         throw UnsupportedOperationException("Can't serialize NBTTagEnd separately")
@@ -12,7 +12,7 @@ class NBTTagEnd private constructor() : NBTTag("END") {
 
     override fun toString() = name
 
-    internal object Parser : TagParser<NBTTagEnd>() {
+    internal object Parser : TagParser<NBTEnd>() {
         override fun parse(name: String, input: DataInputStream) = throw UnsupportedOperationException("You can't just create NBTTagEnd")
     }
 }

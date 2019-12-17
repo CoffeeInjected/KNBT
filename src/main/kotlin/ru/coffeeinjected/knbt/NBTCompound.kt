@@ -5,7 +5,7 @@ import ru.coffeeinjected.knbt.internal.TagRegistry
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
-class NBTTagCompound(name: String) : NBTTag(name) {
+class NBTCompound(name: String) : NBTTag(name) {
 
     private val tags = HashMap<String, NBTTag>()
 
@@ -23,9 +23,9 @@ class NBTTagCompound(name: String) : NBTTag(name) {
         return "$name:{${tags.entries.joinToString(separator = ",") { it.value.toString() }}}"
     }
 
-    internal object Parser : TagParser<NBTTagCompound>() {
-        override fun parse(name: String, input: DataInputStream): NBTTagCompound {
-            val compound = NBTTagCompound(name)
+    internal object Parser : TagParser<NBTCompound>() {
+        override fun parse(name: String, input: DataInputStream): NBTCompound {
+            val compound = NBTCompound(name)
             var tagId: Byte = input.readByte()
             println(tagId)
 
