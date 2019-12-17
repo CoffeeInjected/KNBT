@@ -12,6 +12,8 @@ class NBTEnd private constructor() : NBTTag("END") {
 
     override fun valueToString() = throw UnsupportedOperationException("Can't evaluate tag end")
 
+    override fun deepClone() = throw UnsupportedOperationException("Can't clone tag end")
+
     internal object Parser : TagParser<NBTEnd>() {
         override fun parse(name: String, input: DataInputStream) = throw UnsupportedOperationException("You can't just create NBTTagEnd")
     }

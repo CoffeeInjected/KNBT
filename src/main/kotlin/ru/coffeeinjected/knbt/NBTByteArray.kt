@@ -20,6 +20,8 @@ class NBTByteArray(name: String, val value: ByteArray) : NBTTag(name) {
 
     override fun valueToString() = "[B;${value.joinToString(separator = ",")}]"
 
+    override fun deepClone() = NBTByteArray(name, value.copyOf())
+
     internal object Parser : TagParser<NBTByteArray>() {
         override fun parse(name: String, input: DataInputStream): NBTByteArray {
             val arr = ByteArray(input.readInt())

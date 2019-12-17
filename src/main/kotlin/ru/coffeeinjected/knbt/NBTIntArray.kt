@@ -13,6 +13,8 @@ class NBTIntArray(name: String, private val value: IntArray) : NBTTag(name) {
 
     override fun valueToString() = "[I;${value.joinToString(separator = ",")}]"
 
+    override fun deepClone() = NBTIntArray(name, value.copyOf())
+
     internal object Parser : TagParser<NBTIntArray>() {
         override fun parse(name: String, input: DataInputStream): NBTIntArray {
             return NBTIntArray(name, IntArray(input.readInt()) { input.readInt() })

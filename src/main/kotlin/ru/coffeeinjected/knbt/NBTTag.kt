@@ -12,6 +12,8 @@ abstract class NBTTag(val name: String) {
 
     abstract fun valueToString(): String
 
+    abstract fun deepClone(): NBTTag
+
     companion object {
         /**
          * Main parser method for any tag

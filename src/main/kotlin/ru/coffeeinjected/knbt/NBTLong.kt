@@ -12,6 +12,8 @@ class NBTLong(name: String, private val value: Long) : NBTTag(name) {
 
     override fun valueToString() = "${value}L"
 
+    override fun deepClone() = NBTLong(name, value)
+
     internal object Parser : TagParser<NBTLong>() {
         override fun parse(name: String, input: DataInputStream) = NBTLong(name, input.readLong())
     }

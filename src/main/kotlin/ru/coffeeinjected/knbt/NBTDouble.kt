@@ -12,6 +12,8 @@ class NBTDouble(name: String, private val value: Double) : NBTTag(name) {
 
     override fun valueToString() = "${value}D"
 
+    override fun deepClone() = NBTDouble(name, value)
+
     internal object Parser : TagParser<NBTDouble>() {
         override fun parse(name: String, input: DataInputStream) = NBTDouble(name, input.readDouble())
     }

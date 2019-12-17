@@ -21,6 +21,8 @@ class NBTCompound(name: String) : NBTTag(name) {
 
     override fun valueToString() = "{${tags.entries.joinToString(separator = ",") { it.value.toString() }}}"
 
+    override fun deepClone() = NBTCompound(name).also { compound -> tags.forEach { compound.put(it.key, it.value) } }
+
     internal object Parser : TagParser<NBTCompound>() {
         override fun parse(name: String, input: DataInputStream): NBTCompound {
             val compound = NBTCompound(name)

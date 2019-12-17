@@ -12,6 +12,8 @@ class NBTInt(name: String, private val value: Int) : NBTTag(name) {
 
     override fun valueToString() = "$value"
 
+    override fun deepClone() = NBTInt(name, value)
+
     internal object Parser : TagParser<NBTInt>() {
         override fun parse(name: String, input: DataInputStream) = NBTInt(name, input.readInt())
     }

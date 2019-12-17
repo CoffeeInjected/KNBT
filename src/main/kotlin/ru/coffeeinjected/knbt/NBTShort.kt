@@ -12,6 +12,8 @@ class NBTShort(name: String, private val value: Short) : NBTTag(name) {
 
     override fun valueToString() = "${value}S"
 
+    override fun deepClone() = NBTShort(name, value)
+
     internal object Parser : TagParser<NBTShort>() {
         override fun parse(name: String, input: DataInputStream) = NBTShort(name, input.readShort())
     }

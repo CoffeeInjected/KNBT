@@ -12,6 +12,8 @@ class NBTByte(name: String, private val value: Byte) : NBTTag(name) {
 
     override fun valueToString() = "${value}B"
 
+    override fun deepClone() = NBTByte(name, value)
+
     internal object Parser : TagParser<NBTByte>() {
         override fun parse(name: String, input: DataInputStream) = NBTByte(name, input.readByte())
     }

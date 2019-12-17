@@ -24,6 +24,8 @@ class NBTList(name: String, val tagId: Byte) : NBTTag(name) {
 
     override fun valueToString() = "[${tags.joinToString(separator = ",")}]"
 
+    override fun deepClone() = NBTList(name, tagId).also { list -> tags.forEach { list.add(it) } }
+
     internal object Parser : TagParser<NBTList>() {
         override fun parse(name: String, input: DataInputStream): NBTList {
             val tagId: Byte = input.readByte()

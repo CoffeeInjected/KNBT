@@ -12,6 +12,8 @@ class NBTString(name: String, private val value: String) : NBTTag(name) {
 
     override fun valueToString() = "\"${value.replace("\"", "\\\"")}\""
 
+    override fun deepClone() = NBTString(name, value)
+
     internal object Parser : TagParser<NBTString>() {
         override fun parse(name: String, input: DataInputStream) = NBTString(name, input.readUTF())
     }
