@@ -27,7 +27,7 @@ class Tests : StringSpec({
             val testArray = (NBTInputStream(it, true).parse() as NBTCompound).get("byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))") as NBTByteArray
             testArray.size shouldBe 1000
             for (i in 0..999) {
-                testArray[i] shouldBe (i * i * 255 + i * 7) % 100
+                testArray[i] shouldBe ((i * i * 255 + i * 7) % 100).toByte()
             }
         }
     }
