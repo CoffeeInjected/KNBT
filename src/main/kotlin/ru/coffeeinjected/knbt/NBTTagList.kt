@@ -1,20 +1,41 @@
 package ru.coffeeinjected.knbt
 
 import ru.coffeeinjected.knbt.internal.TagParser
+import ru.coffeeinjected.knbt.internal.TagRegistry
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
-class NBTTagList(name: String) : NBTTag(name) {
+class NBTTagList(name: String, val tagId: Byte) : NBTTag(name) {
 
-    override fun write(output: DataOutputStream) {
-        TODO()
+    private val tags = ArrayList<NBTTag>()
+
+    fun add(tag: NBTTag) {
+        tags += tag
     }
 
-    override fun toString() = TODO()
+    override fun write(output: DataOutputStream) {
+        output.writeByte(tagId.toInt())
+        output.writeInt(tags.size)
+
+        for (tag in tags) {
+            tag.write(output)
+        }
+    }
+
+    override fun toString() = "[${tags.joinToString(separator = ",")}]"
 
     internal object Parser : TagParser<NBTTagList>() {
         override fun parse(name: String, input: DataInputStream): NBTTagList {
-            TODO()
+            val tagId: Byte = input.readByte()
+            val list = NBTTagList(name, tagId)
+            val size = input.readInt()
+            val parser = TagRegistry.getTagParser(tagId)
+
+            repeat(size) {
+                list.add(parser.parse("", input))
+            }
+
+            return list
         }
     }
 }

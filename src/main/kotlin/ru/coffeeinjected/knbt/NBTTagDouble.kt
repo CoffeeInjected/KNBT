@@ -10,7 +10,7 @@ class NBTTagDouble(name: String, private val value: Double) : NBTTag(name) {
         output.writeDouble(value)
     }
 
-    override fun toString() = "$name:${value}F"
+    override fun toString() = "$name:${value}D"
 
     internal object Parser : TagParser<NBTTagDouble>() {
         override fun parse(name: String, input: DataInputStream) = NBTTagDouble(name, input.readDouble())

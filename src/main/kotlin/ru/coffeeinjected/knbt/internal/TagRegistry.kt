@@ -7,6 +7,7 @@ object TagRegistry {
     private val tagsByIds = HashMap<Byte, TagParser<*>>()
 
     init {
+        registerTag(NBTTag.Type.END, NBTTagEnd.Parser)
         registerTag(NBTTag.Type.BYTE, NBTTagByte.Parser)
         registerTag(NBTTag.Type.SHORT, NBTTagShort.Parser)
         registerTag(NBTTag.Type.INT, NBTTagInt.Parser)
@@ -29,7 +30,7 @@ object TagRegistry {
         tagsByIds.remove(id)
     }
 
-    fun getParser(id: Byte): TagParser<*> {
+    fun getTagParser(id: Byte): TagParser<*> {
         return tagsByIds[id]!!
     }
 }

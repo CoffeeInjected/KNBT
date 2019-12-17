@@ -1,5 +1,6 @@
 package ru.coffeeinjected.knbt
 
+import ru.coffeeinjected.knbt.internal.TagRegistry
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
@@ -10,8 +11,15 @@ abstract class NBTTag(val name: String) {
     abstract override fun toString(): String
 
     companion object {
-        fun readTag(input: DataInputStream): NBTTag? {
-            return null
+        /**
+         * Main parser method for any tag
+         */
+        fun readTag(input: DataInputStream): NBTTag {
+            val tagId = input.readByte()
+            val tagName = input.readUTF()
+            val parser = TagRegistry.getTagParser(tagId)
+
+            return parser.parse(tagName, input)
         }
     }
 
