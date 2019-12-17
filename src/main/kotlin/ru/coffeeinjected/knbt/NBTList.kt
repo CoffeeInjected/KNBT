@@ -1,11 +1,10 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagParser
-import ru.coffeeinjected.knbt.internal.TagRegistry
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-class NBTList(name: String, val tagId: Byte) : NBTTag(name) {
+class NBTList(val tagId: Byte) : NBTTag {
 
     private val tags = ArrayList<NBTTag>()
 
@@ -13,7 +12,7 @@ class NBTList(name: String, val tagId: Byte) : NBTTag(name) {
         tags += tag
     }
 
-    override fun write(output: DataOutputStream) {
+    override fun write(output: DataOutput) {
         output.writeByte(tagId.toInt())
         output.writeInt(tags.size)
 
@@ -22,19 +21,19 @@ class NBTList(name: String, val tagId: Byte) : NBTTag(name) {
         }
     }
 
-    override fun valueToString() = "[${tags.joinToString(separator = ",")}]"
+    override fun toString() = "[${tags.joinToString(separator = ",")}]"
 
-    override fun deepClone() = NBTList(name, tagId).also { list -> tags.forEach { list.add(it) } }
+    override fun deepClone() = NBTList(tagId).also { list -> tags.forEach { list.add(it.deepClone()) } }
 
-    internal object Parser : TagParser<NBTList>() {
-        override fun parse(name: String, input: DataInputStream): NBTList {
+    internal object Deserializer : TagDeserializer<NBTList>() {
+        override fun deserialize(name: String, input: DataInput): NBTList {
             val tagId: Byte = input.readByte()
-            val list = NBTList(name, tagId)
+            val list = NBTList(tagId)
             val size = input.readInt()
-            val parser = TagRegistry.getTagParser(tagId)
+            val deserializer = NBTTag.getTypeById(tagId).deserializer
 
             repeat(size) {
-                list.add(parser.parse("", input))
+                list.add(deserializer.deserialize("", input))
             }
 
             return list

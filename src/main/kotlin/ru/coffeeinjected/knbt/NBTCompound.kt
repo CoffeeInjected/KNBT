@@ -1,11 +1,10 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagParser
-import ru.coffeeinjected.knbt.internal.TagRegistry
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-class NBTCompound(name: String) : NBTTag(name) {
+class NBTCompound : NBTTag {
 
     private val tags = HashMap<String, NBTTag>()
 
@@ -15,22 +14,22 @@ class NBTCompound(name: String) : NBTTag(name) {
 
     fun get(name: String): NBTTag? = tags[name]
 
-    override fun write(output: DataOutputStream) {
+    override fun write(output: DataOutput) {
 
     }
 
-    override fun valueToString() = "{${tags.entries.joinToString(separator = ",") { it.value.toString() }}}"
+    override fun toString() = "{${tags.entries.joinToString(separator = ",") { "${it.key}:${it.value}" }}}"
 
-    override fun deepClone() = NBTCompound(name).also { compound -> tags.forEach { compound.put(it.key, it.value) } }
+    override fun deepClone() = NBTCompound().also { compound -> tags.forEach { compound.put(it.key, it.value.deepClone()) } }
 
-    internal object Parser : TagParser<NBTCompound>() {
-        override fun parse(name: String, input: DataInputStream): NBTCompound {
-            val compound = NBTCompound(name)
+    internal object Deserializer : TagDeserializer<NBTCompound>() {
+        override fun deserialize(name: String, input: DataInput): NBTCompound {
+            val compound = NBTCompound()
             var tagId: Byte = input.readByte()
 
             while (tagId != 0.toByte()) {
                 val tagName = input.readUTF()
-                compound.put(tagName, TagRegistry.getTagParser(tagId).parse(tagName, input))
+                compound.put(tagName, NBTTag.getTypeById(tagId).deserializer.deserialize(tagName, input))
                 tagId = input.readByte() // Reading next tag id
             }
 

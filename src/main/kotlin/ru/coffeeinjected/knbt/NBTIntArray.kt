@@ -1,23 +1,25 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagParser
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-class NBTIntArray(name: String, private val value: IntArray) : NBTTag(name) {
+class NBTIntArray(val value: IntArray) : NBTTag {
 
-    override fun write(output: DataOutputStream) {
+    override fun write(output: DataOutput) {
         output.writeInt(value.size)
-        value.forEach { output.writeInt(it) }
+        value.forEach(output::writeInt)
     }
 
-    override fun valueToString() = "[I;${value.joinToString(separator = ",")}]"
+    override fun toString() = "[I;${value.joinToString(separator = ",")}]"
 
-    override fun deepClone() = NBTIntArray(name, value.copyOf())
+    override fun deepClone() = NBTIntArray(value.copyOf())
 
-    internal object Parser : TagParser<NBTIntArray>() {
-        override fun parse(name: String, input: DataInputStream): NBTIntArray {
-            return NBTIntArray(name, IntArray(input.readInt()) { input.readInt() })
+    internal object Deserializer : TagDeserializer<NBTIntArray>() {
+        override fun deserialize(name: String, input: DataInput): NBTIntArray {
+            return NBTIntArray(IntArray(input.readInt()) {
+                input.readInt()
+            })
         }
     }
 }

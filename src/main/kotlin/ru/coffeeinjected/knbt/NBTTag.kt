@@ -1,47 +1,46 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagRegistry
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-abstract class NBTTag(val name: String) {
+interface NBTTag {
 
-    abstract fun write(output: DataOutputStream)
+    fun write(output: DataOutput)
 
-    override fun toString(): String = if (name.isEmpty()) valueToString() else "$name:${valueToString()}"
-
-    abstract fun valueToString(): String
-
-    abstract fun deepClone(): NBTTag
+    fun deepClone(): NBTTag
 
     companion object {
+
         /**
-         * Main parser method for any tag
+         * Main read method for any tag
          */
-        fun readTag(input: DataInputStream): NBTTag {
+        fun readTag(input: DataInput): Pair<String, NBTTag> {
             val tagId = input.readByte()
             val tagName = input.readUTF()
-            val parser = TagRegistry.getTagParser(tagId)
+            val deserializer = getTypeById(tagId).deserializer
 
-            return parser.parse(tagName, input)
+            return Pair(tagName, deserializer.deserialize(tagName, input))
         }
+
+        fun getTypeById(id: Byte) = Type.values()[id.toInt()]
     }
 
-    class Type private constructor() {
-        companion object {
-            const val END: Byte = 0
-            const val BYTE: Byte = 1
-            const val SHORT: Byte = 2
-            const val INT: Byte = 3
-            const val LONG: Byte = 4
-            const val FLOAT: Byte = 5
-            const val DOUBLE: Byte = 6
-            const val BYTE_ARRAY: Byte = 7
-            const val STRING: Byte = 8
-            const val LIST: Byte = 9
-            const val COMPOUND: Byte = 10
-            const val INT_ARRAY: Byte = 11
-            const val LONG_ARRAY: Byte = 12
-        }
+    enum class Type(val deserializer: TagDeserializer<*>) {
+
+        END(NBTEnd.Deserializer),
+        BYTE(NBTByte.Deserializer),
+        SHORT(NBTShort.Deserializer),
+        INT(NBTInt.Deserializer),
+        LONG(NBTLong.Deserializer),
+        FLOAT(NBTFloat.Deserializer),
+        DOUBLE(NBTDouble.Deserializer),
+        BYTE_ARRAY(NBTByteArray.Deserializer),
+        STRING(NBTString.Deserializer),
+        LIST(NBTList.Deserializer),
+        COMPOUND(NBTCompound.Deserializer),
+        INT_ARRAY(NBTIntArray.Deserializer),
+        LONG_ARRAY(NBTLongArray.Deserializer)
+
     }
 }

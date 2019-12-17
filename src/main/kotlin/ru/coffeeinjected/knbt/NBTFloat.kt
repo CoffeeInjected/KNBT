@@ -1,20 +1,20 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagParser
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-class NBTFloat(name: String, private val value: Float) : NBTTag(name) {
+class NBTFloat(val value: Float) : NBTTag {
 
-    override fun write(output: DataOutputStream) {
+    override fun write(output: DataOutput) {
         output.writeFloat(value)
     }
 
-    override fun valueToString() = "${value}F"
+    override fun toString() = "${value}F"
 
-    override fun deepClone() = NBTFloat(name, value)
+    override fun deepClone() = NBTFloat(value)
 
-    internal object Parser : TagParser<NBTFloat>() {
-        override fun parse(name: String, input: DataInputStream) = NBTFloat(name, input.readFloat())
+    internal object Deserializer : TagDeserializer<NBTFloat>() {
+        override fun deserialize(name: String, input: DataInput) = NBTFloat(input.readFloat())
     }
 }

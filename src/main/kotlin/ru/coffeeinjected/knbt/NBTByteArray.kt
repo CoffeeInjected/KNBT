@@ -1,32 +1,25 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagParser
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-class NBTByteArray(name: String, val value: ByteArray) : NBTTag(name) {
+class NBTByteArray(val value: ByteArray) : NBTTag {
 
-    val size: Int
-        get() = value.size
-
-    operator fun get(index: Int) = value[index]
-    operator fun set(index: Int, value: Byte) = this.value.set(index, value)
-    operator fun iterator(): ByteIterator = value.iterator()
-
-    override fun write(output: DataOutputStream) {
+    override fun write(output: DataOutput) {
         output.writeInt(value.size)
         output.write(value)
     }
 
-    override fun valueToString() = "[B;${value.joinToString(separator = ",")}]"
+    override fun toString() = "[B;${value.joinToString(separator = ",")}]"
 
-    override fun deepClone() = NBTByteArray(name, value.copyOf())
+    override fun deepClone() = NBTByteArray(value.copyOf())
 
-    internal object Parser : TagParser<NBTByteArray>() {
-        override fun parse(name: String, input: DataInputStream): NBTByteArray {
+    internal object Deserializer : TagDeserializer<NBTByteArray>() {
+        override fun deserialize(name: String, input: DataInput): NBTByteArray {
             val arr = ByteArray(input.readInt())
-            input.read(arr)
-            return NBTByteArray(name, arr)
+            input.readFully(arr)
+            return NBTByteArray(arr)
         }
     }
 }

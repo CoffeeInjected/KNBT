@@ -1,20 +1,20 @@
 package ru.coffeeinjected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagParser
-import java.io.DataInputStream
-import java.io.DataOutputStream
+import ru.coffeeinjected.knbt.internal.TagDeserializer
+import java.io.DataInput
+import java.io.DataOutput
 
-class NBTEnd private constructor() : NBTTag("END") {
+class NBTEnd private constructor() : NBTTag {
 
-    override fun write(output: DataOutputStream) {
+    override fun write(output: DataOutput) {
         throw UnsupportedOperationException("Can't serialize NBTTagEnd separately")
     }
 
-    override fun valueToString() = throw UnsupportedOperationException("Can't evaluate tag end")
+    override fun toString() = throw UnsupportedOperationException("Can't evaluate tag end")
 
     override fun deepClone() = throw UnsupportedOperationException("Can't clone tag end")
 
-    internal object Parser : TagParser<NBTEnd>() {
-        override fun parse(name: String, input: DataInputStream) = throw UnsupportedOperationException("You can't just create NBTTagEnd")
+    internal object Deserializer : TagDeserializer<NBTEnd>() {
+        override fun deserialize(name: String, input: DataInput) = throw UnsupportedOperationException("You can't just create NBTTagEnd")
     }
 }
