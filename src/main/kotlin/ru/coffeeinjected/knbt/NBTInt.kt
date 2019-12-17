@@ -10,7 +10,7 @@ class NBTInt(name: String, private val value: Int) : NBTTag(name) {
         output.writeInt(value)
     }
 
-    override fun toString() = "$name:${value}"
+    override fun valueToString() = "$value"
 
     internal object Parser : TagParser<NBTInt>() {
         override fun parse(name: String, input: DataInputStream) = NBTInt(name, input.readInt())

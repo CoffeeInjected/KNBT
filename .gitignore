@@ -1,4 +1,5 @@
 # IntelliJ IDEA
+/.kotlintest/
 /.idea/
 /out/
 *.iml

@@ -10,7 +10,7 @@ class NBTString(name: String, private val value: String) : NBTTag(name) {
         output.writeUTF(value)
     }
 
-    override fun toString() = "$name:\"${value.replace("\"", "\\\"")}\""
+    override fun valueToString() = "\"${value.replace("\"", "\\\"")}\""
 
     internal object Parser : TagParser<NBTString>() {
         override fun parse(name: String, input: DataInputStream) = NBTString(name, input.readUTF())

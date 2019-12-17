@@ -11,7 +11,7 @@ class NBTLongArray(name: String, private val value: LongArray) : NBTTag(name) {
         value.forEach { output.writeLong(it) }
     }
 
-    override fun toString() = "$name:[I;${value.joinToString(separator = ",")}]"
+    override fun valueToString() = "[L;${value.joinToString(separator = ",")}]"
 
     internal object Parser : TagParser<NBTLongArray>() {
         override fun parse(name: String, input: DataInputStream): NBTLongArray {

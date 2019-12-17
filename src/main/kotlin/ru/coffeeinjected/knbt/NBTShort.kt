@@ -10,7 +10,7 @@ class NBTShort(name: String, private val value: Short) : NBTTag(name) {
         output.writeShort(value.toInt())
     }
 
-    override fun toString() = "$name:${value}S"
+    override fun valueToString() = "${value}S"
 
     internal object Parser : TagParser<NBTShort>() {
         override fun parse(name: String, input: DataInputStream) = NBTShort(name, input.readShort())

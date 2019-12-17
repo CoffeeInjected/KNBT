@@ -11,7 +11,7 @@ class NBTIntArray(name: String, private val value: IntArray) : NBTTag(name) {
         value.forEach { output.writeInt(it) }
     }
 
-    override fun toString() = "$name:[I;${value.joinToString(separator = ",")}]"
+    override fun valueToString() = "[I;${value.joinToString(separator = ",")}]"
 
     internal object Parser : TagParser<NBTIntArray>() {
         override fun parse(name: String, input: DataInputStream): NBTIntArray {

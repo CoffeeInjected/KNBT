@@ -10,7 +10,7 @@ class NBTEnd private constructor() : NBTTag("END") {
         throw UnsupportedOperationException("Can't serialize NBTTagEnd separately")
     }
 
-    override fun toString() = name
+    override fun valueToString() = throw UnsupportedOperationException("Can't evaluate tag end")
 
     internal object Parser : TagParser<NBTEnd>() {
         override fun parse(name: String, input: DataInputStream) = throw UnsupportedOperationException("You can't just create NBTTagEnd")

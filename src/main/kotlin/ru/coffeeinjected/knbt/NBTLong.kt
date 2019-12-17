@@ -10,7 +10,7 @@ class NBTLong(name: String, private val value: Long) : NBTTag(name) {
         output.writeLong(value)
     }
 
-    override fun toString() = "$name:${value}L"
+    override fun valueToString() = "${value}L"
 
     internal object Parser : TagParser<NBTLong>() {
         override fun parse(name: String, input: DataInputStream) = NBTLong(name, input.readLong())

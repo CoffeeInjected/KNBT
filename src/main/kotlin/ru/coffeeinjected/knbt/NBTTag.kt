@@ -8,7 +8,9 @@ abstract class NBTTag(val name: String) {
 
     abstract fun write(output: DataOutputStream)
 
-    abstract override fun toString(): String
+    override fun toString(): String = if (name.isEmpty()) valueToString() else "$name:${valueToString()}"
+
+    abstract fun valueToString(): String
 
     companion object {
         /**

@@ -22,7 +22,7 @@ class NBTList(name: String, val tagId: Byte) : NBTTag(name) {
         }
     }
 
-    override fun toString() = "[${tags.joinToString(separator = ",")}]"
+    override fun valueToString() = "[${tags.joinToString(separator = ",")}]"
 
     internal object Parser : TagParser<NBTList>() {
         override fun parse(name: String, input: DataInputStream): NBTList {

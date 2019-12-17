@@ -10,7 +10,7 @@ class NBTFloat(name: String, private val value: Float) : NBTTag(name) {
         output.writeFloat(value)
     }
 
-    override fun toString() = "$name:${value}F"
+    override fun valueToString() = "${value}F"
 
     internal object Parser : TagParser<NBTFloat>() {
         override fun parse(name: String, input: DataInputStream) = NBTFloat(name, input.readFloat())
