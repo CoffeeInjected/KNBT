@@ -1,5 +1,6 @@
 package ru.coffeeinjected.knbt.io
 
+import ru.coffeeinjected.knbt.NBTCompound
 import ru.coffeeinjected.knbt.NBTTag
 import java.io.DataInputStream
 import java.io.InputStream
@@ -13,4 +14,6 @@ class NBTReader(val stream: InputStream, val compressed: Boolean = false) {
     }
 
     fun readNBT(): NBTTag = read().second
+
+    fun readCompound(): NBTCompound = readNBT().asNBTCompound()
 }

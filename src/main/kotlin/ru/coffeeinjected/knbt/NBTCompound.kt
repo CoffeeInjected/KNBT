@@ -12,7 +12,8 @@ class NBTCompound : NBTTag {
         tags[name] = tag
     }
 
-    fun get(name: String): NBTTag? = tags[name]
+    operator fun set(name: String, tag: NBTTag) = tags.set(name, tag)
+    operator fun get(name: String) = tags[name]
 
     override fun write(output: DataOutput) {
 

@@ -10,6 +10,24 @@ interface NBTTag {
 
     fun deepClone(): NBTTag
 
+    private inline fun <reified T : NBTTag> castTag(): T {
+        return if (this is T) this else
+            throw IllegalArgumentException("${this.javaClass.simpleName} cannot be converted to ${T::class.java.simpleName}")
+    }
+
+    fun asNBTByte() = castTag<NBTByte>()
+    fun asNBTByteArray() = castTag<NBTByteArray>()
+    fun asNBTCompound() = castTag<NBTCompound>()
+    fun asNBTDouble() = castTag<NBTDouble>()
+    fun asNBTFloat() = castTag<NBTFloat>()
+    fun asNBTInt() = castTag<NBTInt>()
+    fun asNBTIntArray() = castTag<NBTIntArray>()
+    fun asNBTList() = castTag<NBTList>()
+    fun asNBTLong() = castTag<NBTLong>()
+    fun asNBTLongArray() = castTag<NBTLongArray>()
+    fun asNBTShort() = castTag<NBTShort>()
+    fun asNBTString() = castTag<NBTString>()
+
     companion object {
 
         /**
