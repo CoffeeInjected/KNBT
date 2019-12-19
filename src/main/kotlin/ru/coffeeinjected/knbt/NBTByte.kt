@@ -10,11 +10,20 @@ class NBTByte(val value: Byte) : NBTTag {
         output.writeByte(value.toInt())
     }
 
-    override fun toString() = "${value}B"
-
     override fun deepClone() = NBTByte(value)
 
     override fun getTypeId() = 1.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTByte) return false
+
+        return other.value == value
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "${value}B"
 
     internal object Deserializer : TagDeserializer<NBTByte>() {
         override fun deserialize(name: String, input: DataInput) = NBTByte(input.readByte())

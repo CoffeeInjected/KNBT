@@ -21,11 +21,20 @@ class NBTList(val tagId: Byte) : NBTTag {
         }
     }
 
-    override fun toString() = "[${tags.joinToString(separator = ",")}]"
-
     override fun deepClone() = NBTList(tagId).also { list -> tags.forEach { list.add(it.deepClone()) } }
 
     override fun getTypeId() = 9.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTList) return false
+
+        return other.tags == tags
+    }
+
+    override fun hashCode() = tags.hashCode()
+
+    override fun toString() = "[${tags.joinToString(separator = ",")}]"
 
     internal object Deserializer : TagDeserializer<NBTList>() {
         override fun deserialize(name: String, input: DataInput): NBTList {

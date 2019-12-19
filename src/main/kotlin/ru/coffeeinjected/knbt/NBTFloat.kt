@@ -10,11 +10,20 @@ class NBTFloat(val value: Float) : NBTTag {
         output.writeFloat(value)
     }
 
-    override fun toString() = "${value}F"
-
     override fun deepClone() = NBTFloat(value)
 
     override fun getTypeId() = 5.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTFloat) return false
+
+        return other.value == value
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "${value}F"
 
     internal object Deserializer : TagDeserializer<NBTFloat>() {
         override fun deserialize(name: String, input: DataInput) = NBTFloat(input.readFloat())

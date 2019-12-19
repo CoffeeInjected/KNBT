@@ -11,11 +11,20 @@ class NBTLongArray(val value: LongArray) : NBTTag {
         value.forEach(output::writeLong)
     }
 
-    override fun toString() = "[L;${value.joinToString(separator = ",")}]"
-
     override fun deepClone() = NBTLongArray(value.copyOf())
 
     override fun getTypeId() = 12.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTLongArray) return false
+
+        return other.value.contentEquals(value)
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "[L;${value.joinToString(separator = ",")}]"
 
     internal object Deserializer : TagDeserializer<NBTLongArray>() {
         override fun deserialize(name: String, input: DataInput): NBTLongArray {

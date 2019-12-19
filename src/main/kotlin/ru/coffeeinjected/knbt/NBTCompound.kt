@@ -22,11 +22,20 @@ class NBTCompound : NBTTag {
         output.writeByte(0) // NBTEnd
     }
 
-    override fun toString() = "{${tags.entries.joinToString(separator = ",") { "\"${it.key}\":${it.value}" }}}"
-
     override fun deepClone() = NBTCompound().also { compound -> tags.forEach { compound.put(it.key, it.value.deepClone()) } }
 
     override fun getTypeId() = 10.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTCompound) return false
+
+        return other.tags == tags
+    }
+
+    override fun hashCode() = tags.hashCode()
+
+    override fun toString() = "{${tags.entries.joinToString(separator = ",") { "\"${it.key}\":${it.value}" }}}"
 
     internal object Deserializer : TagDeserializer<NBTCompound>() {
         override fun deserialize(name: String, input: DataInput): NBTCompound {

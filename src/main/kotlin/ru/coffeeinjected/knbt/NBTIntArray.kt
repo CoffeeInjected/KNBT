@@ -11,11 +11,20 @@ class NBTIntArray(val value: IntArray) : NBTTag {
         value.forEach(output::writeInt)
     }
 
-    override fun toString() = "[I;${value.joinToString(separator = ",")}]"
-
     override fun deepClone() = NBTIntArray(value.copyOf())
 
     override fun getTypeId() = 11.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTIntArray) return false
+
+        return other.value.contentEquals(value)
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "[I;${value.joinToString(separator = ",")}]"
 
     internal object Deserializer : TagDeserializer<NBTIntArray>() {
         override fun deserialize(name: String, input: DataInput): NBTIntArray {

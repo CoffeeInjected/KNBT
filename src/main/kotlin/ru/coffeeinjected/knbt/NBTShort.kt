@@ -10,11 +10,20 @@ class NBTShort(val value: Short) : NBTTag {
         output.writeShort(value.toInt())
     }
 
-    override fun toString() = "${value}S"
-
     override fun deepClone() = NBTShort(value)
 
     override fun getTypeId() = 2.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTShort) return false
+
+        return other.value == value
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "${value}S"
 
     internal object Deserializer : TagDeserializer<NBTShort>() {
         override fun deserialize(name: String, input: DataInput) = NBTShort(input.readShort())

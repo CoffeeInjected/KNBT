@@ -8,9 +8,14 @@ interface NBTTag {
 
     fun write(output: DataOutput)
 
+    override fun toString(): String
+
     fun deepClone(): NBTTag
 
     fun getTypeId(): Byte
+
+    override operator fun equals(other: Any?): Boolean
+    override fun hashCode(): Int
 
     private inline fun <reified T : NBTTag> castTag(): T {
         return if (this is T) this else

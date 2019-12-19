@@ -11,11 +11,20 @@ class NBTByteArray(val value: ByteArray) : NBTTag {
         output.write(value)
     }
 
-    override fun toString() = "[B;${value.joinToString(separator = ",")}]"
-
     override fun deepClone() = NBTByteArray(value.copyOf())
 
     override fun getTypeId() = 7.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTByteArray) return false
+
+        return other.value.contentEquals(value)
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "[B;${value.joinToString(separator = ",")}]"
 
     internal object Deserializer : TagDeserializer<NBTByteArray>() {
         override fun deserialize(name: String, input: DataInput): NBTByteArray {

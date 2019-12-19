@@ -10,11 +10,20 @@ class NBTInt(val value: Int) : NBTTag {
         output.writeInt(value)
     }
 
-    override fun toString() = "$value"
-
     override fun deepClone() = NBTInt(value)
 
     override fun getTypeId() = 3.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTInt) return false
+
+        return other.value == value
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "$value"
 
     internal object Deserializer : TagDeserializer<NBTInt>() {
         override fun deserialize(name: String, input: DataInput) = NBTInt(input.readInt())

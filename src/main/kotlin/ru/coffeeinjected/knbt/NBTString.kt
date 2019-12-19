@@ -10,11 +10,20 @@ class NBTString(val value: String) : NBTTag {
         output.writeUTF(value)
     }
 
-    override fun toString() = "\"${value.replace("\"", "\\\"")}\""
-
     override fun deepClone() = NBTString(value)
 
     override fun getTypeId() = 8.toByte()
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is NBTString) return false
+
+        return other.value == value
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = "\"${value.replace("\"", "\\\"")}\""
 
     internal object Deserializer : TagDeserializer<NBTString>() {
         override fun deserialize(name: String, input: DataInput) = NBTString(input.readUTF())
