@@ -8,14 +8,13 @@ interface NBTTag {
 
     fun write(output: DataOutput)
 
-    override fun toString(): String
-
     fun deepClone(): NBTTag
 
     fun getTypeId(): Byte
 
     override operator fun equals(other: Any?): Boolean
     override fun hashCode(): Int
+    override fun toString(): String
 
     private inline fun <reified T : NBTTag> castTag(): T {
         return if (this is T) this else
@@ -34,6 +33,19 @@ interface NBTTag {
     fun asNBTLongArray() = castTag<NBTLongArray>()
     fun asNBTShort() = castTag<NBTShort>()
     fun asNBTString() = castTag<NBTString>()
+
+    fun isByte(): Boolean = this is NBTByte
+    fun isByteArray(): Boolean = this is NBTByteArray
+    fun isCompound(): Boolean = this is NBTCompound
+    fun isDouble(): Boolean = this is NBTDouble
+    fun isFloat(): Boolean = this is NBTFloat
+    fun isInt(): Boolean = this is NBTInt
+    fun isIntArray(): Boolean = this is NBTIntArray
+    fun isList(): Boolean = this is NBTList
+    fun isLong(): Boolean = this is NBTLong
+    fun isLongArray(): Boolean = this is NBTLongArray
+    fun isShort(): Boolean = this is NBTShort
+    fun isString(): Boolean = this is NBTString
 
     companion object {
 

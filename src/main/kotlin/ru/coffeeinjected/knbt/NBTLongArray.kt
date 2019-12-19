@@ -6,6 +6,13 @@ import java.io.DataOutput
 
 class NBTLongArray(val value: LongArray) : NBTTag {
 
+    val size: Int
+        get() = value.size
+
+    operator fun get(index: Int) = value[index]
+    operator fun set(index: Int, value: Long) = this.value.set(index, value)
+    operator fun iterator(): LongIterator = value.iterator()
+
     override fun write(output: DataOutput) {
         output.writeInt(value.size)
         value.forEach(output::writeLong)

@@ -6,6 +6,13 @@ import java.io.DataOutput
 
 class NBTByteArray(val value: ByteArray) : NBTTag {
 
+    val size: Int
+        get() = value.size
+
+    operator fun get(index: Int) = value[index]
+    operator fun set(index: Int, value: Byte) = this.value.set(index, value)
+    operator fun iterator(): ByteIterator = value.iterator()
+
     override fun write(output: DataOutput) {
         output.writeInt(value.size)
         output.write(value)

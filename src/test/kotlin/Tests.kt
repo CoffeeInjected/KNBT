@@ -41,11 +41,9 @@ class Tests : StringSpec({
     }
     "bigtest.nbt byte array" {
         readFile("bigtest.nbt").use {
-            val testArray = NBTReader(it, true).readCompound()["byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))"]!!.asNBTByteArray()
-            testArray.value.size shouldBe 1000
-            for (i in 0 until 1000) {
-                testArray.value[i] shouldBe ((i * i * 255 + i * 7) % 100).toByte()
-            }
+            val testArray = NBTReader(it, true).readCompound()
+                    .getByteArray("byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))")
+            testArray shouldBe ByteArray(1000) { i -> ((i * i * 255 + i * 7) % 100).toByte() }
         }
     }
     "bigtest.nbt deepClone toString" {
@@ -60,6 +58,7 @@ class Tests : StringSpec({
         readFile("bigtest.nbt").use {
             NBTReader(it, true).readCompound().apply {
                 (this == deepClone()) shouldBe true
+                (this === deepClone()) shouldBe false
             }
         }
     }

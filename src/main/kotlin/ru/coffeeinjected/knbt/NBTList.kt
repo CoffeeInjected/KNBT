@@ -8,8 +8,23 @@ class NBTList(val tagId: Byte) : NBTTag {
 
     private val tags = ArrayList<NBTTag>()
 
-    fun add(tag: NBTTag) {
+    val size: Int
+        get() = tags.size
+
+    fun add(tag: NBTTag) = tags.add(tag)
+    fun remove(tag: NBTTag) = tags.remove(tag)
+    fun removeAt(index: Int) = tags.removeAt(index)
+    operator fun get(index: Int): NBTTag = tags[index]
+    operator fun set(index: Int, value: NBTTag) = tags.set(index, value)
+    operator fun contains(tag: NBTTag): Boolean = tag in tags
+    operator fun iterator(): Iterator<NBTTag> = tags.iterator()
+
+    operator fun plusAssign(tag: NBTTag) {
         tags += tag
+    }
+
+    operator fun minusAssign(tag: NBTTag) {
+        tags -= tag
     }
 
     override fun write(output: DataOutput) {
