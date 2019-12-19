@@ -25,6 +25,8 @@ class NBTList(val tagId: Byte) : NBTTag {
 
     override fun deepClone() = NBTList(tagId).also { list -> tags.forEach { list.add(it.deepClone()) } }
 
+    override fun getTypeId() = 9.toByte()
+
     internal object Deserializer : TagDeserializer<NBTList>() {
         override fun deserialize(name: String, input: DataInput): NBTList {
             val tagId: Byte = input.readByte()

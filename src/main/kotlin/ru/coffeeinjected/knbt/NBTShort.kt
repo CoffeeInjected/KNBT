@@ -14,6 +14,8 @@ class NBTShort(val value: Short) : NBTTag {
 
     override fun deepClone() = NBTShort(value)
 
+    override fun getTypeId() = 2.toByte()
+
     internal object Deserializer : TagDeserializer<NBTShort>() {
         override fun deserialize(name: String, input: DataInput) = NBTShort(input.readShort())
     }

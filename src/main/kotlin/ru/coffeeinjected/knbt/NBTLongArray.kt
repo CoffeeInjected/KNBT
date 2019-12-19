@@ -15,6 +15,8 @@ class NBTLongArray(val value: LongArray) : NBTTag {
 
     override fun deepClone() = NBTLongArray(value.copyOf())
 
+    override fun getTypeId() = 12.toByte()
+
     internal object Deserializer : TagDeserializer<NBTLongArray>() {
         override fun deserialize(name: String, input: DataInput): NBTLongArray {
             return NBTLongArray(LongArray(input.readInt()) { input.readLong() })

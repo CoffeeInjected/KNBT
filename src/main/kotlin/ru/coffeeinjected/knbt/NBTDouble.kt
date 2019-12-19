@@ -14,6 +14,8 @@ class NBTDouble(val value: Double) : NBTTag {
 
     override fun deepClone() = NBTDouble(value)
 
+    override fun getTypeId() = 6.toByte()
+
     internal object Deserializer : TagDeserializer<NBTDouble>() {
         override fun deserialize(name: String, input: DataInput) = NBTDouble(input.readDouble())
     }

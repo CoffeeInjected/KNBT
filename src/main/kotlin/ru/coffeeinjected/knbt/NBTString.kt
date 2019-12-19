@@ -14,6 +14,8 @@ class NBTString(val value: String) : NBTTag {
 
     override fun deepClone() = NBTString(value)
 
+    override fun getTypeId() = 8.toByte()
+
     internal object Deserializer : TagDeserializer<NBTString>() {
         override fun deserialize(name: String, input: DataInput) = NBTString(input.readUTF())
     }

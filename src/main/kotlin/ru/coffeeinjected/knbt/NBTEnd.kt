@@ -14,6 +14,8 @@ class NBTEnd private constructor() : NBTTag {
 
     override fun deepClone() = throw UnsupportedOperationException("Can't clone tag end")
 
+    override fun getTypeId() = 0.toByte()
+
     internal object Deserializer : TagDeserializer<NBTEnd>() {
         override fun deserialize(name: String, input: DataInput) = throw UnsupportedOperationException("You can't just create NBTTagEnd")
     }

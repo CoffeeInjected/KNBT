@@ -15,6 +15,8 @@ class NBTByteArray(val value: ByteArray) : NBTTag {
 
     override fun deepClone() = NBTByteArray(value.copyOf())
 
+    override fun getTypeId() = 7.toByte()
+
     internal object Deserializer : TagDeserializer<NBTByteArray>() {
         override fun deserialize(name: String, input: DataInput): NBTByteArray {
             val arr = ByteArray(input.readInt())

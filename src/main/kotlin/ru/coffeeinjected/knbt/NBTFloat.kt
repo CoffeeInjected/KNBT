@@ -14,6 +14,8 @@ class NBTFloat(val value: Float) : NBTTag {
 
     override fun deepClone() = NBTFloat(value)
 
+    override fun getTypeId() = 5.toByte()
+
     internal object Deserializer : TagDeserializer<NBTFloat>() {
         override fun deserialize(name: String, input: DataInput) = NBTFloat(input.readFloat())
     }

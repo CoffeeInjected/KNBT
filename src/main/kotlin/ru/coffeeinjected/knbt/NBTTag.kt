@@ -10,6 +10,8 @@ interface NBTTag {
 
     fun deepClone(): NBTTag
 
+    fun getTypeId(): Byte
+
     private inline fun <reified T : NBTTag> castTag(): T {
         return if (this is T) this else
             throw IllegalArgumentException("${this.javaClass.simpleName} cannot be converted to ${T::class.java.simpleName}")
@@ -41,24 +43,33 @@ interface NBTTag {
             return Pair(tagName, deserializer.deserialize(tagName, input))
         }
 
+        /**
+         * Main write method for any tag
+         */
+        fun writeTag(output: DataOutput, name: String, tag: NBTTag) {
+            output.writeByte(tag.getTypeId().toInt())
+            output.writeUTF(name)
+            tag.write(output)
+        }
+
         fun getTypeById(id: Byte) = Type.values()[id.toInt()]
     }
 
     enum class Type(val deserializer: TagDeserializer<*>) {
 
-        END(NBTEnd.Deserializer),
-        BYTE(NBTByte.Deserializer),
-        SHORT(NBTShort.Deserializer),
-        INT(NBTInt.Deserializer),
-        LONG(NBTLong.Deserializer),
-        FLOAT(NBTFloat.Deserializer),
-        DOUBLE(NBTDouble.Deserializer),
-        BYTE_ARRAY(NBTByteArray.Deserializer),
-        STRING(NBTString.Deserializer),
-        LIST(NBTList.Deserializer),
-        COMPOUND(NBTCompound.Deserializer),
-        INT_ARRAY(NBTIntArray.Deserializer),
-        LONG_ARRAY(NBTLongArray.Deserializer)
+        /* 00 */ END(NBTEnd.Deserializer),
+        /* 01 */ BYTE(NBTByte.Deserializer),
+        /* 02 */ SHORT(NBTShort.Deserializer),
+        /* 03 */ INT(NBTInt.Deserializer),
+        /* 04 */ LONG(NBTLong.Deserializer),
+        /* 05 */ FLOAT(NBTFloat.Deserializer),
+        /* 06 */ DOUBLE(NBTDouble.Deserializer),
+        /* 07 */ BYTE_ARRAY(NBTByteArray.Deserializer),
+        /* 08 */ STRING(NBTString.Deserializer),
+        /* 09 */ LIST(NBTList.Deserializer),
+        /* 0A */ COMPOUND(NBTCompound.Deserializer),
+        /* 0B */ INT_ARRAY(NBTIntArray.Deserializer),
+        /* 0C */ LONG_ARRAY(NBTLongArray.Deserializer)
 
     }
 }

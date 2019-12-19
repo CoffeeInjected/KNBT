@@ -6,7 +6,7 @@ import java.io.DataInputStream
 import java.io.InputStream
 import java.util.zip.GZIPInputStream
 
-class NBTReader(val stream: InputStream, val compressed: Boolean = false) {
+class NBTReader(private val stream: InputStream, private val compressed: Boolean = false) {
 
     fun read(): Pair<String, NBTTag> {
         val stream = if (compressed) DataInputStream(GZIPInputStream(stream)) else DataInputStream(stream)

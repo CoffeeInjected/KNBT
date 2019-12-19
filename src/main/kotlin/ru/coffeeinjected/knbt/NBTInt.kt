@@ -14,6 +14,8 @@ class NBTInt(val value: Int) : NBTTag {
 
     override fun deepClone() = NBTInt(value)
 
+    override fun getTypeId() = 3.toByte()
+
     internal object Deserializer : TagDeserializer<NBTInt>() {
         override fun deserialize(name: String, input: DataInput) = NBTInt(input.readInt())
     }

@@ -14,6 +14,8 @@ class NBTByte(val value: Byte) : NBTTag {
 
     override fun deepClone() = NBTByte(value)
 
+    override fun getTypeId() = 1.toByte()
+
     internal object Deserializer : TagDeserializer<NBTByte>() {
         override fun deserialize(name: String, input: DataInput) = NBTByte(input.readByte())
     }
