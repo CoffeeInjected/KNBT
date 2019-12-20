@@ -48,7 +48,7 @@ class NBTCompound : NBTTag {
 
     override fun deepClone() = NBTCompound().also { compound -> tags.forEach { compound.put(it.key, it.value.deepClone()) } }
 
-    override fun getTypeId() = 10.toByte()
+    override fun getTypeId(): Byte = 10
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

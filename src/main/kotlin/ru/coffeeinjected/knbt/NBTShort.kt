@@ -12,7 +12,7 @@ class NBTShort(val value: Short) : NBTTag {
 
     override fun deepClone() = NBTShort(value)
 
-    override fun getTypeId() = 2.toByte()
+    override fun getTypeId(): Byte = 2
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

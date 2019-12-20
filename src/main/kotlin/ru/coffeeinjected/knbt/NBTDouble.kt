@@ -12,7 +12,7 @@ class NBTDouble(val value: Double) : NBTTag {
 
     override fun deepClone() = NBTDouble(value)
 
-    override fun getTypeId() = 6.toByte()
+    override fun getTypeId(): Byte = 6
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

@@ -12,7 +12,7 @@ class NBTEnd private constructor() : NBTTag {
 
     override fun deepClone() = throw UnsupportedOperationException("Can't clone tag end")
 
-    override fun getTypeId() = 0.toByte()
+    override fun getTypeId(): Byte = 0
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

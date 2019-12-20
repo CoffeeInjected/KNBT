@@ -20,7 +20,7 @@ class NBTByteArray(val value: ByteArray) : NBTTag {
 
     override fun deepClone() = NBTByteArray(value.copyOf())
 
-    override fun getTypeId() = 7.toByte()
+    override fun getTypeId(): Byte = 7
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

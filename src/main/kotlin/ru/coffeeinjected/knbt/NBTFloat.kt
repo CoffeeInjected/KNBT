@@ -12,7 +12,7 @@ class NBTFloat(val value: Float) : NBTTag {
 
     override fun deepClone() = NBTFloat(value)
 
-    override fun getTypeId() = 5.toByte()
+    override fun getTypeId(): Byte = 5
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

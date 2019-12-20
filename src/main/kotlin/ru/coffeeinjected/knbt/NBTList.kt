@@ -38,7 +38,7 @@ class NBTList(val tagId: Byte) : NBTTag {
 
     override fun deepClone() = NBTList(tagId).also { list -> tags.forEach { list.add(it.deepClone()) } }
 
-    override fun getTypeId() = 9.toByte()
+    override fun getTypeId(): Byte = 9
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true
