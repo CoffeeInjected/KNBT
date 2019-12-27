@@ -21,6 +21,19 @@ class NBTCompound : NBTTag {
     fun getShort(name: String): Short = this[name]!!.asNBTShort().value
     fun getString(name: String): String = this[name]!!.asNBTString().value
 
+    fun hasByte(name: String): Boolean = this[name]?.run { this is NBTByte } ?: false
+    fun hasByteArray(name: String): Boolean = this[name]?.run { this is NBTByteArray } ?: false
+    fun hasCompound(name: String): Boolean = this[name]?.run { this is NBTCompound } ?: false
+    fun hasDouble(name: String): Boolean = this[name]?.run { this is NBTDouble } ?: false
+    fun hasFloat(name: String): Boolean = this[name]?.run { this is NBTFloat } ?: false
+    fun hasInt(name: String): Boolean = this[name]?.run { this is NBTInt } ?: false
+    fun hasIntArray(name: String): Boolean = this[name]?.run { this is NBTIntArray } ?: false
+    fun hasList(name: String): Boolean = this[name]?.run { this is NBTList } ?: false
+    fun hasLong(name: String): Boolean = this[name]?.run { this is NBTLong } ?: false
+    fun hasLongArray(name: String): Boolean = this[name]?.run { this is NBTLongArray } ?: false
+    fun hasShort(name: String): Boolean = this[name]?.run { this is NBTShort } ?: false
+    fun hasString(name: String): Boolean = this[name]?.run { this is NBTString } ?: false
+
     fun setByte(name: String, value: Byte) = set(name, NBTByte(value))
     fun setByteArray(name: String, value: ByteArray) = set(name, NBTByteArray(value))
     fun setDouble(name: String, value: Double) = set(name, NBTDouble(value))
@@ -34,6 +47,7 @@ class NBTCompound : NBTTag {
 
     operator fun set(name: String, tag: NBTTag) = tags.set(name, tag)
     operator fun get(name: String) = tags[name]
+    operator fun contains(name: String): Boolean = tags[name] != null
 
     fun put(name: String, tag: NBTTag) {
         tags[name] = tag
