@@ -49,10 +49,6 @@ class NBTCompound : NBTTag {
     operator fun get(name: String) = tags[name]
     operator fun contains(name: String): Boolean = tags[name] != null
 
-    fun put(name: String, tag: NBTTag) {
-        tags[name] = tag
-    }
-
     override fun write(output: DataOutput) {
         for ((name, tag) in tags.entries) {
             NBTTag.writeTag(output, name, tag)
@@ -60,7 +56,7 @@ class NBTCompound : NBTTag {
         output.writeByte(0) // NBTEnd
     }
 
-    override fun deepClone() = NBTCompound().also { compound -> tags.forEach { compound.put(it.key, it.value.deepClone()) } }
+    override fun deepClone() = NBTCompound().also { compound -> tags.forEach { compound[it.key] = it.value.deepClone() } }
 
     override fun getTypeId(): Byte = 10
 
@@ -83,7 +79,7 @@ class NBTCompound : NBTTag {
             while (tagId != 0.toByte()) {
                 val tagName = input.readUTF()
 
-                compound.put(tagName, NBTTag.getTypeById(tagId).deserializer.deserialize(tagName, input))
+                compound[tagName] = NBTTag.getTypeById(tagId).deserializer.deserialize(tagName, input)
 
                 tagId = input.readByte()
             }
