@@ -6,14 +6,11 @@ import java.io.DataOutputStream
 import java.io.OutputStream
 import java.util.zip.GZIPOutputStream
 
-class NBTWriter(private val stream: OutputStream, private val compressed: Boolean = false) : Closeable {
+class NBTWriter(stream: OutputStream, compressed: Boolean = false) : Closeable {
 
-    fun write(name: String, tag: NBTTag) {
-        val stream = if (compressed) DataOutputStream(GZIPOutputStream(stream)) else DataOutputStream(stream)
-        NBTTag.writeTag(stream, name, tag)
-        stream.close()
-    }
+    private val stream = if (compressed) DataOutputStream(GZIPOutputStream(stream)) else DataOutputStream(stream)
 
+    fun write(name: String, tag: NBTTag) = NBTTag.writeTag(stream, name, tag)
     fun write(tag: NBTTag) = write("", tag)
 
     override fun close() = stream.close()
