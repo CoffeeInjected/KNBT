@@ -1,6 +1,6 @@
-package ru.coffeeinjected.knbt.io
+package coffee.injected.knbt.io
 
-import ru.coffeeinjected.knbt.NBTTag
+import coffee.injected.knbt.NBTTag
 import java.io.Closeable
 import java.io.DataOutputStream
 import java.io.OutputStream

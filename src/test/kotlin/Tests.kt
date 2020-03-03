@@ -1,9 +1,9 @@
 import arrow.core.success
+import coffee.injected.knbt.NBTTag
+import coffee.injected.knbt.io.NBTReader
+import coffee.injected.knbt.io.NBTWriter
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
-import ru.coffeeinjected.knbt.NBTTag
-import ru.coffeeinjected.knbt.io.NBTReader
-import ru.coffeeinjected.knbt.io.NBTWriter
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream

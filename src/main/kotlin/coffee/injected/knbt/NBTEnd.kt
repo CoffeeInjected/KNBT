@@ -1,6 +1,6 @@
-package ru.coffeeinjected.knbt
+package coffee.injected.knbt
 
-import ru.coffeeinjected.knbt.internal.TagDeserializer
+import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 

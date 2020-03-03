@@ -1,6 +1,6 @@
-package ru.coffeeinjected.knbt.internal
+package coffee.injected.knbt.internal
 
-import ru.coffeeinjected.knbt.NBTTag
+import coffee.injected.knbt.NBTTag
 import java.io.DataInput
 
 abstract class TagDeserializer<T : NBTTag> {
