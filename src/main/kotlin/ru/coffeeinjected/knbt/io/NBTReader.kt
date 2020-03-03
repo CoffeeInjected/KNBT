@@ -2,11 +2,12 @@ package ru.coffeeinjected.knbt.io
 
 import ru.coffeeinjected.knbt.NBTCompound
 import ru.coffeeinjected.knbt.NBTTag
+import java.io.Closeable
 import java.io.DataInputStream
 import java.io.InputStream
 import java.util.zip.GZIPInputStream
 
-class NBTReader(private val stream: InputStream, private val compressed: Boolean = false) {
+class NBTReader(private val stream: InputStream, private val compressed: Boolean = false) : Closeable {
 
     fun read(): Pair<String, NBTTag> {
         val stream = if (compressed) DataInputStream(GZIPInputStream(stream)) else DataInputStream(stream)
@@ -16,4 +17,6 @@ class NBTReader(private val stream: InputStream, private val compressed: Boolean
     fun readNBT(): NBTTag = read().second
 
     fun readCompound(): NBTCompound = readNBT().asNBTCompound()
+
+    override fun close() = stream.close()
 }

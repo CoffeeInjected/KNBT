@@ -1,11 +1,12 @@
 package ru.coffeeinjected.knbt.io
 
 import ru.coffeeinjected.knbt.NBTTag
+import java.io.Closeable
 import java.io.DataOutputStream
 import java.io.OutputStream
 import java.util.zip.GZIPOutputStream
 
-class NBTWriter(private val stream: OutputStream, private val compressed: Boolean = false) {
+class NBTWriter(private val stream: OutputStream, private val compressed: Boolean = false) : Closeable {
 
     fun write(name: String, tag: NBTTag) {
         val stream = if (compressed) DataOutputStream(GZIPOutputStream(stream)) else DataOutputStream(stream)
@@ -13,5 +14,7 @@ class NBTWriter(private val stream: OutputStream, private val compressed: Boolea
         stream.close()
     }
 
-    fun writeNBT(tag: NBTTag) = write("", tag)
+    fun write(tag: NBTTag) = write("", tag)
+
+    override fun close() = stream.close()
 }
