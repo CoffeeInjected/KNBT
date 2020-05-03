@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTShort(val value: Short) : NBTTag {
+class NBTShort(val value: Short) : NBTTag<NBTShort> {
 
     override fun write(output: DataOutput) {
         output.writeShort(value.toInt())

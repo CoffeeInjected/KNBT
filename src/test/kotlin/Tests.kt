@@ -66,7 +66,7 @@ class Tests : StringSpec({
     fun testSerialization(fileName: String, compressed: Boolean) {
         var bytes = readFile(fileName).readBytes()
         fun parse(stream: InputStream) = NBTReader(stream, compressed).read().also { println(it) }
-        fun serialize(tag: Pair<String, NBTTag>) = ByteArrayOutputStream().use { out ->
+        fun serialize(tag: Pair<String, NBTTag<*>>) = ByteArrayOutputStream().use { out ->
             NBTWriter(out, compressed).use { it.write(tag.first, tag.second) }
             val arr = out.toByteArray()
             val dSize = arr.size - bytes.size

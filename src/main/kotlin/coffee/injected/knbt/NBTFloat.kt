@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTFloat(val value: Float) : NBTTag {
+class NBTFloat(val value: Float) : NBTTag<NBTFloat> {
 
     override fun write(output: DataOutput) {
         output.writeFloat(value)

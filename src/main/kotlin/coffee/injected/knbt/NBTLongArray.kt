@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTLongArray(val value: LongArray) : NBTTag {
+class NBTLongArray(val value: LongArray) : NBTTag<NBTLongArray> {
 
     val size: Int
         get() = value.size

@@ -4,9 +4,9 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTCompound : NBTTag {
+class NBTCompound : NBTTag<NBTCompound> {
 
-    private val tags = HashMap<String, NBTTag>()
+    private val tags = LinkedHashMap<String, NBTTag<*>>()
 
     fun getByte(name: String): Byte = this[name]!!.asNBTByte().value
     fun getByteArray(name: String): ByteArray = this[name]!!.asNBTByteArray().value
@@ -15,7 +15,7 @@ class NBTCompound : NBTTag {
     fun getFloat(name: String): Float = this[name]!!.asNBTFloat().value
     fun getInt(name: String): Int = this[name]!!.asNBTInt().value
     fun getIntArray(name: String): IntArray = this[name]!!.asNBTIntArray().value
-    fun getList(name: String): NBTList = this[name]!!.asNBTList()
+    inline fun <reified T : NBTTag<T>> getList(name: String): NBTList<T> = this[name]!!.asNBTList()
     fun getLong(name: String): Long = this[name]!!.asNBTLong().value
     fun getLongArray(name: String): LongArray = this[name]!!.asNBTLongArray().value
     fun getShort(name: String): Short = this[name]!!.asNBTShort().value
@@ -28,7 +28,7 @@ class NBTCompound : NBTTag {
     fun hasFloat(name: String): Boolean = this[name]?.run { this is NBTFloat } ?: false
     fun hasInt(name: String): Boolean = this[name]?.run { this is NBTInt } ?: false
     fun hasIntArray(name: String): Boolean = this[name]?.run { this is NBTIntArray } ?: false
-    fun hasList(name: String): Boolean = this[name]?.run { this is NBTList } ?: false
+    fun hasList(name: String): Boolean = this[name]?.run { this is NBTList<*> } ?: false
     fun hasLong(name: String): Boolean = this[name]?.run { this is NBTLong } ?: false
     fun hasLongArray(name: String): Boolean = this[name]?.run { this is NBTLongArray } ?: false
     fun hasShort(name: String): Boolean = this[name]?.run { this is NBTShort } ?: false
@@ -45,7 +45,7 @@ class NBTCompound : NBTTag {
     fun setShort(name: String, value: Short) = set(name, NBTShort(value))
     fun setString(name: String, value: String) = set(name, NBTString(value))
 
-    operator fun set(name: String, tag: NBTTag) = tags.set(name, tag)
+    operator fun set(name: String, tag: NBTTag<*>) = tags.set(name, tag)
     operator fun get(name: String) = tags[name]
     operator fun contains(name: String): Boolean = tags[name] != null
 
@@ -56,7 +56,8 @@ class NBTCompound : NBTTag {
         output.writeByte(0) // NBTEnd
     }
 
-    override fun deepClone() = NBTCompound().also { compound -> tags.forEach { compound[it.key] = it.value.deepClone() } }
+    override fun deepClone() =
+        NBTCompound().also { compound -> tags.forEach { compound[it.key] = it.value.deepClone() } }
 
     override fun getTypeId(): Byte = 10
 

@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTString(val value: String) : NBTTag {
+class NBTString(val value: String) : NBTTag<NBTString> {
 
     override fun write(output: DataOutput) {
         output.writeUTF(value)

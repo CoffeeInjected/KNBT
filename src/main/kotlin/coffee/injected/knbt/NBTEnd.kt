@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTEnd private constructor() : NBTTag {
+class NBTEnd private constructor() : NBTTag<NBTEnd> {
 
     override fun write(output: DataOutput) {
         throw UnsupportedOperationException("Can't serialize NBTTagEnd separately")

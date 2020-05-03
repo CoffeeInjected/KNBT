@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTDouble(val value: Double) : NBTTag {
+class NBTDouble(val value: Double) : NBTTag<NBTDouble> {
 
     override fun write(output: DataOutput) {
         output.writeDouble(value)

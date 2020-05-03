@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTByte(val value: Byte) : NBTTag {
+class NBTByte(val value: Byte) : NBTTag<NBTByte> {
 
     override fun write(output: DataOutput) {
         output.writeByte(value.toInt())

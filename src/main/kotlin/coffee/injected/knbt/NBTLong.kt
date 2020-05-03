@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTLong(val value: Long) : NBTTag {
+class NBTLong(val value: Long) : NBTTag<NBTLong> {
 
     override fun write(output: DataOutput) {
         output.writeLong(value)

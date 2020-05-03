@@ -4,7 +4,7 @@ import coffee.injected.knbt.internal.TagDeserializer
 import java.io.DataInput
 import java.io.DataOutput
 
-class NBTByteArray(val value: ByteArray) : NBTTag {
+class NBTByteArray(val value: ByteArray) : NBTTag<NBTByteArray> {
 
     val size: Int
         get() = value.size
