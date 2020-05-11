@@ -6,6 +6,8 @@ import java.io.DataOutput
 
 class NBTByte(val value: Byte) : NBTTag<NBTByte> {
 
+    constructor(boolean: Boolean) : this(if (boolean) 1.toByte() else 0.toByte())
+
     override fun write(output: DataOutput) {
         output.writeByte(value.toInt())
     }
